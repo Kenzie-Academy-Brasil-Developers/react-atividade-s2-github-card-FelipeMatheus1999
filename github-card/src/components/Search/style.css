@@ -38,5 +38,5 @@
 
 .search__button:active {
     background: rgb(4, 5, 58);
-    transition: 0.1s;
+    transition: 0.05s;
 }

@@ -1,20 +1,17 @@
 import "./App.css";
-import { useEffect, useState } from "react";
 import Search from "./components/Search";
+import Cards from "./components/Cards";
+import { useState } from "react";
 
 function App() {
-  const [gitApi, setGitApi] = useState([]);
-
-  useEffect(() => {
-    fetch("https://api.github.com/repos/octocat/hello-world")
-      .then((res) => res.json())
-      .then((res) => setGitApi(res))
-      .catch((error) => error);
-  }, []);
+  const [api, setApi] = useState([]);
 
   return (
     <div className="App">
-      <Search  gitApi={gitApi}/>
+      <Search api={api} setApi={setApi} />
+      <div className="containerCard">
+        <Cards api={api} />
+      </div>
     </div>
   );
 }

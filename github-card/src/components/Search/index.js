@@ -7,14 +7,13 @@ import { useState } from "react";
 const Search = ({ api, setApi }) => {
   const [text, setText] = useState("");
 
-  // const schema = yup.object().shape({
-  //   input: yup.string().required(),
-  // });
+  const schema = yup.object().shape({
+    input: yup.string().required("Digite uma repositório/tecnologia"),
+  });
 
-  // const {
-  //   register,
-  //   formState: { errors },
-  // } = useForm({ resolver: yupResolver(schema) });
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const handleInput = (e) => {
     setText(e.target.value);
@@ -33,10 +32,9 @@ const Search = ({ api, setApi }) => {
         className="search__input"
         type="text"
         placeholder="search..."
+        {...register("input")}
         onChange={handleInput}
-        // {...register("input")}
       />
-      {/* {errors.input?.message("Digite o nome de usuário/repositório")} */}
       <button className="search__button" onClick={handleSearch}>
         submit
       </button>

@@ -16,6 +16,7 @@ const Cards = ({ api }) => {
       </div>
     );
   });
+
   return card;
 };
 

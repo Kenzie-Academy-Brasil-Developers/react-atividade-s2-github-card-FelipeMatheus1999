@@ -1,19 +1,10 @@
 import "./style.css";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Search = ({ api, setApi }) => {
   const [text, setText] = useState("");
-
-  const schema = yup.object().shape({
-    input: yup.string().required("Digite uma repositório/tecnologia"),
-  });
-
-  const { register, handleSubmit } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [inputError, setInputError] = useState(false);
 
   const handleInput = (e) => {
     setText(e.target.value);
@@ -22,17 +13,28 @@ const Search = ({ api, setApi }) => {
   const handleSearch = () => {
     fetch(`https://api.github.com/repos/${text}`)
       .then((res) => res.json())
-      .then((res) => setApi([...api, res]))
-      .catch((error) => error);
+      .then((res) => {
+        setApi([...api, res]);
+        setInputError(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setInputError(true);
+        toast.warning("Repositório não encontrado");
+      });
   };
 
   return (
     <div className="search">
       <input
+        style={
+          inputError
+            ? { backgroundColor: "#f4acb7" }
+            : { backgroundColor: "#f1f1f1" }
+        }
         className="search__input"
         type="text"
         placeholder="search..."
-        {...register("input")}
         onChange={handleInput}
       />
       <button className="search__button" onClick={handleSearch}>
